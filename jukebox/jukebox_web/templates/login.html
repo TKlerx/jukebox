@@ -1,33 +1,11 @@
-{% load i18n %}
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-    <head>
-        <title>{% trans 'Democratic Jukebox - your democratic music player' %}</title>
-        <meta name="description" content="{% trans 'Democratic Jukebox - your democratic music player' %}">
-        <meta charset="UTF-8"/>
-        <link rel="shortcut icon" href="/static/img/favicon.ico" type="image/x-icon"/>
-        <link type="text/css" rel="stylesheet" href="/static/css/music.css" />
-    </head>
-    <body>
-        <div id="header">
-            <div id="logo">
-                <a href="/">
-                    <img src="/static/img/jukebox.png" alt="{% trans 'Jukebox logo' %}" width="156" height="40" />
-                </a>
-            </div>
-            <div id="profile">
-            </div>
-            <div id="search">
-                <h1>{% trans 'Login' %}</h1>
-            </div>
-        </div>
-        <div id="content">
+{% extends "base.html" %}
+
+{% block content %}
+<div id="content">
             <div id="main">
-                {% if error %}
-                    {% for msg in error %}
-                        <p class="login_error">{{ msg.message }}</p>
-                    {% endfor %}
-                {% endif %}
+  {% if form.errors %}
+    <p class="error">Sorry, that's not a valid username or password</p>
+  {% endif %}
                 <div class="login">
                     {% for backend in backends %}
                         <div>
@@ -36,8 +14,23 @@
                             </a>
                         </div>
                     {%  endfor %}
+
+
                 </div>
+
             </div>
+
         </div>
-    </body>
-</html>
+
+
+  <form action="" method="post">
+    <label for="username">User name:</label>
+    <input type="text" name="username" value="" id="username">
+    <label for="password">Password:</label>
+    <input type="password" name="password" value="" id="password">
+
+    <input type="submit" value="login" />
+    <input type="hidden" name="next" value="{{next}}" />
+  </form>
+
+{% endblock %}

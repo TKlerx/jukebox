@@ -65,6 +65,8 @@ class FileIndexer:
             print "File contains invalid header data: " + filename
         except ID3NoHeaderError:
             print "File does not contain an id3 header: " + filename
+        except IndexError:
+            print "Index error for file: " + filename
 
     def delete(self, filename):
         # single file

@@ -1,5 +1,12 @@
 # -*- coding: UTF-8 -*-
 
+from django import forms
+from django.contrib import auth
+from django.contrib.auth.forms import UserCreationForm
+from django.http import HttpResponseRedirect
+from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+
 from django.shortcuts import render_to_response
 from django.core.context_processors import csrf
 from django.http import HttpResponseRedirect
@@ -9,8 +16,8 @@ from django.contrib.messages.api import get_messages
 from django.conf import settings
 from jukebox.jukebox_core.models import Song, Genre
 
+@login_required
 def index(request):
-    if request.user.is_authenticated():
         request.session.set_expiry(settings.SESSION_TTL)
 
         genres = Genre.objects.all()
@@ -24,25 +31,37 @@ def index(request):
         }
         context.update(csrf(request))
         return render_to_response('index.html', context)
-    else:
-        return HttpResponseRedirect('login')
 
 def login(request):
-    if request.user.is_authenticated():
-        return HttpResponseRedirect('index')
+    username = request.POST.get('username', '')
+    password = request.POST.get('password', '')
+    print password
+    print username
+    user = auth.authenticate(username=username, password=password)
+    user.get_full_name()
+    if user.is_authenticated():
+        # Correct password, and the user is marked "active"
+        auth.login(request, user)
+        # Redirect to a success page.
+        #return HttpResponseRedirect("/")
+	return HttpResponseRedirect("success")
     else:
-        return render_to_response(
-            'login.html',
-            {
-                "backends": settings.SOCIAL_AUTH_ENABLED_BACKENDS,
-            },
-            RequestContext(request)
-        )
+        # Show an error page
+        return HttpResponseRedirect("login_failed")
+    #if request.user.is_authenticated():
+     #   return HttpResponseRedirect('index')
+    #else:
+    #    return render(request,
+     #       'login.html',
+      #      {
+       #         "backends": settings.SOCIAL_AUTH_ENABLED_BACKENDS,
+        #    }
+       # )
 
 def login_error(request):
     messages = get_messages(request)
     return render_to_response(
-        'login.html',
+        'login_failed.html',
         {"error": messages},
         RequestContext(request)
     )
@@ -64,3 +83,16 @@ def language(request, language):
         translation.activate(language)
 
     return response
+
+
+def register(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            new_user = form.save()
+            return HttpResponseRedirect("/")
+    else:
+        form = UserCreationForm()
+    return render(request, "register.html", {
+        'form': form,
+    })

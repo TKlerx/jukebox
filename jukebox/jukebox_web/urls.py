@@ -2,6 +2,7 @@
 
 from django.conf.urls import patterns, url
 from jukebox.jukebox_core.models import QueueFeed
+from django.contrib.auth.views import login, logout
 import views
 
 js_info_dict = {
@@ -12,14 +13,16 @@ js_info_dict = {
 
 urlpatterns = patterns("",
     url(r"^$", views.index, name="jukebox_web_index"),
-    url(r"^login$", views.login, name="jukebox_web_login"),
+    url(r"^login$", login, name="jukebox_web_login"),
+    url(r"^index$", views.index, name="jukebox_web_index"),
+    url(r"^register$", views.register, name="jukebox_web_registration"),
     url(r"^login/error$", views.login_error, name="jukebox_web_login_error"),
     url(
-        r"^language/set/(?P<language>[-a-z]{5}|[a-z]{2})",
+        r"^language/set/(?P<language>[a-z]{2})",
         views.language,
         name="jukebox_web_language"
     ),
-    url(r"^logout$", views.logout, name="jukebox_web_logout"),
+    url(r"^logout$", logout, {'next_page': '/'}),
     url(r'^jsi18n/$', 'django.views.i18n.javascript_catalog', js_info_dict),
 
      # RSS feed url

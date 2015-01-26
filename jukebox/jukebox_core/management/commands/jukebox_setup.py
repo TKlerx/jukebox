@@ -16,6 +16,7 @@ class Command(BaseCommand):
         admin_user = raw_input("\tName: ")
         admin_email = raw_input("\tE-mail: ")
         print ""
+	print "asdf"
 
         # get authentication methods
         authentication = self.setAuthentication()
@@ -52,7 +53,7 @@ class Command(BaseCommand):
             print "Are your kidding me? Why didn't you select a provider?"
             print "I won't let you go until you select at least one of them."
             print ""
-            return False
+            
 
         return {
             "facebook": facebook,
@@ -144,6 +145,7 @@ class Command(BaseCommand):
         setup = setup.replace("[auth_data]", auth_data)
 
         f = open(settings.JUKEBOX_STORAGE_PATH + "/settings_local.py", "w+")
+	print "setting path "+settings.JUKEBOX_STORAGE_PATH
         f.write(setup)
         f.close()
 

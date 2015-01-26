@@ -37,8 +37,6 @@ LANGUAGE_CODE = 'en-us'
 LANGUAGES = (
     ('de', 'Deutsch'),
     ('en', 'English'),
-    ('fr', 'French'),
-    ('pt-br', 'Brazilian Portuguese'),
 )
 USE_I18N = True
 USE_L10N = True
