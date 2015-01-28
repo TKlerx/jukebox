@@ -1,7 +1,8 @@
+{% load i18n %}
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
 <html lang="en">
     <head>
-        <title>Democratic Jukebox - your democratic music player</title>
+        <title>{% trans 'Democratic Jukebox - your democratic music player' %}</title>
         <meta name="description" content="Democratic Jukebox - your democratic music player">
         <meta charset="UTF-8"/>
         <link rel="shortcut icon" href="/static/img/favicon.ico" type="image/x-icon"/>
@@ -11,7 +12,7 @@
     <div id="header">
             <div id="logo">
                 <a href="/">
-                    <img src="/static/img/jukebox.png" alt="Jukebox logo" width="156" height="40" />
+                    <img src="/static/img/jukebox.png" alt="{% trans 'Jukebox logo' %}" width="156" height="40" />
                 </a>
             </div>
             <div id="profile">
@@ -23,7 +24,7 @@
     {% block content %}{% endblock %}
     {% block footer %}
     <hr>
-    <p>Thanks for visiting my site.</p>
+    <p>Place your footnote here.</p>
     {% endblock %}
 </body>
 </html>

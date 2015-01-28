@@ -32,31 +32,6 @@ def index(request):
         context.update(csrf(request))
         return render_to_response('index.html', context)
 
-def login(request):
-    username = request.POST.get('username', '')
-    password = request.POST.get('password', '')
-    print password
-    print username
-    user = auth.authenticate(username=username, password=password)
-    user.get_full_name()
-    if user.is_authenticated():
-        # Correct password, and the user is marked "active"
-        auth.login(request, user)
-        # Redirect to a success page.
-        #return HttpResponseRedirect("/")
-	return HttpResponseRedirect("success")
-    else:
-        # Show an error page
-        return HttpResponseRedirect("login_failed")
-    #if request.user.is_authenticated():
-     #   return HttpResponseRedirect('index')
-    #else:
-    #    return render(request,
-     #       'login.html',
-      #      {
-       #         "backends": settings.SOCIAL_AUTH_ENABLED_BACKENDS,
-        #    }
-       # )
 
 def login_error(request):
     messages = get_messages(request)
